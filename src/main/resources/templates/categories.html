@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pejikan</title>
+</head>
+<body>
+<h1>Pejikan</h1>
+<h2>Categories</h2>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Color</th>
+    </tr>
+    <tr th:each="category: ${categories}">
+        <td th:text="${category.name}" />
+        <td th:text="${category.color}" />
+    </tr>
+</table>
+
+<form method="post" th:action="@{/categories/add}">
+    <input type="text" name="name" />
+    <input type="text" name="color" />
+    <input type="submit" value="Add" />
+</form>
+</body>
+</html>

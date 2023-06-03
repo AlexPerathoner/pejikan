@@ -1,6 +1,7 @@
 # This file is used to create the database and the tables
 CREATE TABLE categories (
-    name VARCHAR(255) NOT NULL PRIMARY KEY
+    name VARCHAR(255) NOT NULL PRIMARY KEY,
+    color varchar(255)
 );
 
 CREATE TABLE entries (

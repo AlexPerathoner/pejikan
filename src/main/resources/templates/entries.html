@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pejikan</title>
+</head>
+<body>
+<h1>Pejikan</h1>
+<h2>Entries - Week: <span th:text="${weekStart}"></span> - <span th:text="${weekEnd}"></span></h2>
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>+ / -</th>
+        <th>Total</th>
+    </tr>
+    <tr th:each="entry: ${entries}">
+        <td th:text="${entry.title}" />
+        <td th:text="${entry.category.name}" />
+        <td th:text="${#dates.format(entry.start, 'dd/MM/yyyy HH:mm')}" />
+        <td th:text="${#dates.format(entry.end, 'dd/MM/yyyy HH:mm')}" />
+        <td th:text="${#dates.format(entry.correction, 'HH:mm')}" />
+        <td th:text="${#dates.format(entry.total, 'HH:mm')}" />
+    </tr>
+</table>
+
+<form method="post" th:action="@{/entries/add}">
+    <table>
+        <tr>
+            <td>Linked Id</td>
+            <td>Title</td>
+            <td>Description</td>
+            <td>Category</td>
+            <td>Start</td>
+            <td>End</td>
+            <td>+ / -</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><input type="text" name="linkedId" /></td>
+            <td><input type="text" name="title" /></td>
+            <td><input type="text" name="description" /></td>
+            <td>
+            <select name="category">
+                <option th:each="category: ${categories}" th:value="${category.name}" th:text="${category.name}" />
+            </select>
+            </td>
+            <td><input type="datetime-local"  name="start"
+                   th:value="${today}"
+                   th:min="${weekStart}" th:max="${weekEnd}" /></td>
+            <td><input type="datetime-local"  name="end"
+                   th:value="${today}"
+                   th:min="${weekStart}" th:max="${weekEnd}" /></td>
+            <td><input type="time" name="correction" step="300000" /></td> <!-- 5 minutes -->
+
+            <td><input type="submit" value="Add" /></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

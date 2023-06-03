@@ -1,6 +1,7 @@
 package com.alexpera.pejikanbackend.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.NonNull;
@@ -12,7 +13,8 @@ import java.util.Date;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "entries")
+@AllArgsConstructor
+@Table(name = "entries", schema = "public")
 public class Entry implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +25,7 @@ public class Entry implements Serializable {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_name", referencedColumnName = "name")
     private Category category;
 
     @NonNull
@@ -34,5 +37,16 @@ public class Entry implements Serializable {
     private Time correction;
     private String linkedId;
     private Time total;
+
+    public Entry(String linkedId, String title, String description, Category category, Date start, Date end, Time correction, Time total) {
+        this.linkedId = linkedId;
+        this.title = title;
+        this.description = description;
+        this.category = category;
+        this.start = start;
+        this.end = end;
+        this.correction = correction;
+        this.total = total;
+    }
 }
 
