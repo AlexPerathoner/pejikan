@@ -9,8 +9,8 @@ CREATE TABLE entries (
                          title VARCHAR(255) NOT NULL,
                          description VARCHAR(255),
                          category_name VARCHAR(255),
-                         start_date DATE NOT NULL,
-                         end_date DATE NOT NULL,
+                         start_date TIMESTAMP NOT NULL,
+                         end_date TIMESTAMP NOT NULL,
                          correction INT,
                          linked_id VARCHAR(255),
                          total INT

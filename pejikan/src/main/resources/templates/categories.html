@@ -20,11 +20,11 @@
         <tr th:each="category: ${categories}">
             <td th:text="${category.name}" />
             <td th:text="${category.color}" />
-            <td><form method="post" th:action="@{/categories/delete}" th:id="${category.name}">
+            <td><form method="post" th:action="@{/categories/delete}" th:id="'form-'+${category.name}">
                 <input type="hidden" name="id" th:value="${category.name}" />
                 <i class="fa-solid fa-delete-left"
                    th:data-id="${category.name}"
-                   onclick="document.getElementById(this.getAttribute('data-id')).submit()"></i>
+                   onclick="document.getElementById('form-'+this.getAttribute('data-id')).submit()"></i>
             </form></td>
         </tr>
         <tr style="height: 50px"></tr>
