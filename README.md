@@ -7,6 +7,12 @@ Time tracking app with
 - Postgres
 - Thymeleaf
 
+## TODO
+- [ ] Fix bug: first row doesn't have <form>
+- [ ] Add action to modify entry / category
+- [ ] Add timeline
+- [ ] Add stats for categories
+
 
 ## Support
 Even starring this project is a great support! If you want to support me even more, you can buy me a beer! :D
