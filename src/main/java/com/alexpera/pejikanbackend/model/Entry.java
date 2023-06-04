@@ -25,7 +25,7 @@ public class Entry implements Serializable {
     private String title;
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_name", referencedColumnName = "name")
     private Category category;
 

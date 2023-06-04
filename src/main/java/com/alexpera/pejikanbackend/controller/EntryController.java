@@ -17,6 +17,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -46,12 +47,16 @@ public class EntryController {
         List<Entry> entries = entriesRepo.getAllInWeek(weekStart, weekEnd);
         model.addAttribute("entries", entries);
 
+        entries.sort(Comparator.comparing(Entry::getStart));
+
         List<Category> allCategories = categoryRepo.findAll();
         model.addAttribute("categories", allCategories);
 
         AtomicReference<Duration> total = new AtomicReference<>(Duration.ZERO);
         entries.stream().map(Entry::getTotal).forEach(d -> total.set(total.get().plus(d)));
         model.addAttribute("total", total.get());
+
+        model.addAttribute("today", dateFormat.format(new Date()));
         return "entries";
     }
 
@@ -79,6 +84,11 @@ public class EntryController {
             endDate = tmp;
         }
         entriesRepo.save(new Entry(linkedId, title, description, new Category(category), startDate, endDate, correctionConv, total));
-        return getEntries(null, model);
+        return "redirect:/entries";
+    }
+    @PostMapping("/entries/delete")
+    public String deleteEntry(@RequestParam Integer id, Model model) {
+        entriesRepo.deleteById(String.valueOf(id));
+        return "redirect:/entries";
     }
 }
