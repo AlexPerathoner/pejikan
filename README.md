@@ -1,4 +1,5 @@
-<img align="right" width="15%" src="screens/icon.png"></img>
+<img align="right" width="15%" src="screens/icon.jpg"></img>
+
 # Pejikan - WIP 🛠️
 
 Time tracking app with
