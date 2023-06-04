@@ -5,39 +5,46 @@
     <title>Pejikan</title>
 </head>
 <body>
-<h1>Pejikan</h1>
-<h2>Entries - Week: <span th:text="${weekStart}"></span> - <span th:text="${weekEnd}"></span></h2>
-<table>
-    <tr>
-        <th>Title</th>
-        <th>Category</th>
-        <th>Start</th>
-        <th>End</th>
-        <th>+ / -</th>
-        <th>Total</th>
-    </tr>
-    <tr th:each="entry: ${entries}">
-        <td th:text="${entry.title}" />
-        <td th:text="${entry.category.name}" />
-        <td th:text="${#dates.format(entry.start, 'dd/MM/yyyy HH:mm')}" />
-        <td th:text="${#dates.format(entry.end, 'dd/MM/yyyy HH:mm')}" />
-        <td th:text="${#dates.format(entry.correction, 'HH:mm')}" />
-        <td th:text="${#dates.format(entry.total, 'HH:mm')}" />
-    </tr>
-</table>
-
+<h1>Pe時間</h1>
+<h2>Entries - Week: <span id="shownWeekStart" th:text="${weekStart}"></span> - <span id="shownWeekEnd" th:text="${weekEnd}"></span></h2>
+<input type="button" value="Previous" onclick="
+let shownWeekStart = document.getElementById('shownWeekStart').innerText;
+let dateParts = shownWeekStart.split('/');
+let shownWeekStartDate = new Date(+dateParts[2], +dateParts[1]-1, +dateParts[0]);
+let previousWeek = new Date(shownWeekStartDate.getFullYear(), shownWeekStartDate.getMonth(), shownWeekStartDate.getDate() - 3);
+window.location.search ='weekStart=' + previousWeek.toISOString().slice(0, 10)
+" />
+<input type="button" value="Next" onclick="
+let shownWeekStart = document.getElementById('shownWeekEnd').innerText;
+let dateParts = shownWeekStart.split('/');
+let shownWeekStartDate = new Date(+dateParts[2], +dateParts[1]-1, +dateParts[0]);
+let nextWeek = new Date(shownWeekStartDate.getFullYear(), shownWeekStartDate.getMonth(), shownWeekStartDate.getDate() + 3);
+window.location.search ='weekStart=' + nextWeek.toISOString().slice(0, 10)
+" />
 <form method="post" th:action="@{/entries/add}">
     <table>
         <tr>
-            <td>Linked Id</td>
-            <td>Title</td>
-            <td>Description</td>
-            <td>Category</td>
-            <td>Start</td>
-            <td>End</td>
-            <td>+ / -</td>
-            <td></td>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>+ / -</th>
+            <th>Total</th>
         </tr>
+        <tr th:each="entry: ${entries}">
+            <td th:text="${entry.title}" />
+            <td th:text="${entry.category.name}" />
+            <td th:text="${#dates.format(entry.start, 'dd/MM/yyyy HH:mm')}" />
+            <td th:text="${#dates.format(entry.end, 'dd/MM/yyyy HH:mm')}" />
+            <td th:text="${#dates.format(entry.correction, 'HH:mm')}" />
+            <td th:text="${#dates.format(entry.total, 'HH:mm')}" />
+        </tr>
+        <tr>
+            <td colspan="4"></td>
+            <th>Total</th>
+            <td th:text="${#dates.format(total, 'HH:mm')}" />
+        </tr>
+        <tr></tr>
         <tr>
             <td><input type="text" name="linkedId" /></td>
             <td><input type="text" name="title" /></td>

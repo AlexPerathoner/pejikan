@@ -29,19 +29,28 @@ public class EntryController {
     DateFormat weekFormat = new SimpleDateFormat("dd/MM/yyyy");
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
     DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+    DateFormat dateInQueryFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @GetMapping("/entries")
-    public String getEntries(Model model) {
-        List<Entry> entries = entriesRepo.findAll();
-        model.addAttribute("entries", entries);
-
+    public String getEntries(@RequestParam(value = "weekStart", required = false) String weekStartStr, Model model) throws ParseException {
         Date weekStart = DateCalculator.getWeekStartDate(new Date());
-        Date weekEnd = DateCalculator.getWeekEndDate(new Date());
+        if (!StringUtils.isEmpty(weekStartStr)) {
+            weekStart = DateCalculator.getWeekStartDate(dateInQueryFormat.parse(weekStartStr));
+        }
+        Date weekEnd = DateCalculator.getWeekEndDate(weekStart);
+
         model.addAttribute("weekStart", weekFormat.format(weekStart));
         model.addAttribute("weekEnd", weekFormat.format(weekEnd));
 
+        List<Entry> entries = entriesRepo.getAllInWeek(weekStart, weekEnd);
+        model.addAttribute("entries", entries);
+
         List<Category> allCategories = categoryRepo.findAll();
         model.addAttribute("categories", allCategories);
+
+        Time total = new Time(0, 0, 0);
+        entries.forEach(entry -> total.setTime(total.getTime() + entry.getTotal().getTime()));
+        model.addAttribute("total", total);
         return "entries";
     }
 
@@ -54,7 +63,6 @@ public class EntryController {
                            @RequestParam String end,
                            @RequestParam String correction,
                            Model model) throws ParseException {
-        // parse html form date and time to java.util.Date
         Date startDate = dateFormat.parse(start);
         Date endDate = dateFormat.parse(end);
 
@@ -66,6 +74,6 @@ public class EntryController {
 
         Time total = new Time(startDate.getTime() - endDate.getTime() - correctionConv.getTime());
         entriesRepo.save(new Entry(linkedId, title, description, new Category(category), startDate, endDate, correctionConv, total));
-        return getEntries(model);
+        return getEntries(null, model);
     }
 }
