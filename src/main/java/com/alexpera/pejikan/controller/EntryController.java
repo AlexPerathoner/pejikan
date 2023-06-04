@@ -1,10 +1,10 @@
-package com.alexpera.pejikanbackend.controller;
+package com.alexpera.pejikan.controller;
 
-import com.alexpera.pejikanbackend.model.Category;
-import com.alexpera.pejikanbackend.model.Entry;
-import com.alexpera.pejikanbackend.repo.CategoryRepo;
-import com.alexpera.pejikanbackend.repo.EntryRepo;
-import com.alexpera.pejikanbackend.service.DateCalculator;
+import com.alexpera.pejikan.model.Category;
+import com.alexpera.pejikan.model.Entry;
+import com.alexpera.pejikan.repo.CategoryRepo;
+import com.alexpera.pejikan.repo.EntryRepo;
+import com.alexpera.pejikan.service.DateCalculator;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +17,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -46,12 +47,16 @@ public class EntryController {
         List<Entry> entries = entriesRepo.getAllInWeek(weekStart, weekEnd);
         model.addAttribute("entries", entries);
 
+        entries.sort(Comparator.comparing(Entry::getStart));
+
         List<Category> allCategories = categoryRepo.findAll();
         model.addAttribute("categories", allCategories);
 
         AtomicReference<Duration> total = new AtomicReference<>(Duration.ZERO);
         entries.stream().map(Entry::getTotal).forEach(d -> total.set(total.get().plus(d)));
         model.addAttribute("total", total.get());
+
+        model.addAttribute("today", dateFormat.format(new Date()));
         return "entries";
     }
 
@@ -79,6 +84,11 @@ public class EntryController {
             endDate = tmp;
         }
         entriesRepo.save(new Entry(linkedId, title, description, new Category(category), startDate, endDate, correctionConv, total));
-        return getEntries(null, model);
+        return "redirect:/entries";
+    }
+    @PostMapping("/entries/delete")
+    public String deleteEntry(@RequestParam Integer id, Model model) {
+        entriesRepo.deleteById(String.valueOf(id));
+        return "redirect:/entries";
     }
 }

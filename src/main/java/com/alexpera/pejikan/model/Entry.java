@@ -1,6 +1,6 @@
-package com.alexpera.pejikanbackend.model;
+package com.alexpera.pejikan.model;
 
-import com.alexpera.pejikanbackend.converter.DurationConverter;
+import com.alexpera.pejikan.converter.DurationConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +25,7 @@ public class Entry implements Serializable {
     private String title;
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_name", referencedColumnName = "name")
     private Category category;
 

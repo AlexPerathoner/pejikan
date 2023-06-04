@@ -1,4 +1,4 @@
-package com.alexpera.pejikanbackend.service;
+package com.alexpera.pejikan.service;
 
 import java.util.Calendar;
 import java.util.Date;

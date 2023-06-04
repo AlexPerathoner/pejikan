@@ -3,72 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <title>Pejikan</title>
+    <script src="https://kit.fontawesome.com/aa582d571b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.0/css/all.css">
 </head>
 <body>
 <div style="width: 30%; margin-left: auto; margin-right: auto;">
-<h1>Pe時間</h1>
-<h2>Entries - Week: <span id="shownWeekStart" th:text="${weekStart}"></span> - <span id="shownWeekEnd" th:text="${weekEnd}"></span></h2>
-<input type="button" value="Previous" onclick="
-let shownWeekStart = document.getElementById('shownWeekStart').innerText;
-let dateParts = shownWeekStart.split('/');
-let shownWeekStartDate = new Date(+dateParts[2], +dateParts[1]-1, +dateParts[0]);
-let previousWeek = new Date(shownWeekStartDate.getFullYear(), shownWeekStartDate.getMonth(), shownWeekStartDate.getDate() - 3);
-window.location.search ='weekStart=' + previousWeek.toISOString().slice(0, 10)
-" />
-<input type="button" value="Next" onclick="
-let shownWeekStart = document.getElementById('shownWeekEnd').innerText;
-let dateParts = shownWeekStart.split('/');
-let shownWeekStartDate = new Date(+dateParts[2], +dateParts[1]-1, +dateParts[0]);
-let nextWeek = new Date(shownWeekStartDate.getFullYear(), shownWeekStartDate.getMonth(), shownWeekStartDate.getDate() + 3);
-window.location.search ='weekStart=' + nextWeek.toISOString().slice(0, 10)
-" />
-<form method="post" th:action="@{/entries/add}">
-    <table>
-        <tr>
-            <td colspan="4"></td>
-            <th>Total</th>
-            <td th:text="${@durationToStringConverter.convert(total)}" />
-        </tr>
-        <tr>
-            <th>Title</th>
-            <th>Category</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>+ / -</th>
-            <th>Total</th>
-        </tr>
-        <tr th:each="entry: ${entries}">
-            <td th:text="${entry.title}" />
-            <td> <span th:style="'width: 1rem; display: -webkit-inline-box;background-color: ' + ${entry.category.color}">&nbsp;</span> <span th:text="${entry.category.name}"/>  </td>
-            <td th:text="${#dates.format(entry.start, 'dd/MM/yyyy HH:mm')}" />
-            <td th:text="${#dates.format(entry.end, 'dd/MM/yyyy HH:mm')}" />
-            <td th:text="${@durationToStringConverter.convert(entry.correction)}" />
-            <td th:text="${@durationToStringConverter.convert(entry.total)}" />
-        </tr>
-        <tr style="height: 50px"></tr>
-        <tr>
-            <td><input type="text" name="title" placeholder="Title"/></td>
-            <td>
-                <select name="category">
-                    <option th:each="category: ${categories}" th:value="${category.name}" th:text="${category.name}" />
-                </select>
-            </td>
-            <td><input type="datetime-local"  name="start"
-                   th:value="${today}"
-                   th:min="${weekStart}" th:max="${weekEnd}" /></td>
-            <td><input type="datetime-local"  name="end"
-                   th:value="${today}"
-                   th:min="${weekStart}" th:max="${weekEnd}" /></td>
-            <td><input type="time" name="correction" step="300000" /></td> <!-- 5 minutes -->
-            <td><input type="submit" value="Add" /></td>
-        </tr>
-        <tr>
-            <td><input type="text" name="linkedId" placeholder="linkedId"/></td>
-            <td><input type="text" name="description" placeholder="Description" /></td>
-            <td colspan="3"></td>
-        </tr>
-    </table>
-</form>
+    <h1>Pe時間</h1>
+    <a href="/categories">Categories</a>
+    <h2>Entries - Week: <span id="shownWeekStart" th:text="${weekStart}"></span> - <span id="shownWeekEnd" th:text="${weekEnd}"></span></h2>
+    <div>
+    <input type="button" value="Previous" onclick="
+    let shownWeekStart = document.getElementById('shownWeekStart').innerText;
+    let dateParts = shownWeekStart.split('/');
+    let shownWeekStartDate = new Date(+dateParts[2], +dateParts[1]-1, +dateParts[0]);
+    let previousWeek = new Date(shownWeekStartDate.getFullYear(), shownWeekStartDate.getMonth(), shownWeekStartDate.getDate() - 3);
+    window.location.search ='weekStart=' + previousWeek.toISOString().slice(0, 10)
+    " />
+    <input type="button" value="Next" onclick="
+    let shownWeekStart = document.getElementById('shownWeekEnd').innerText;
+    let dateParts = shownWeekStart.split('/');
+    let shownWeekStartDate = new Date(+dateParts[2], +dateParts[1]-1, +dateParts[0]);
+    let nextWeek = new Date(shownWeekStartDate.getFullYear(), shownWeekStartDate.getMonth(), shownWeekStartDate.getDate() + 3);
+    window.location.search ='weekStart=' + nextWeek.toISOString().slice(0, 10)
+    " /></div>
+    <form method="post" th:action="@{/entries/add}">
+        <table>
+            <tr>
+                <td colspan="4"></td>
+                <th>Total</th>
+                <td th:text="${@durationToStringConverter.convert(total)}" />
+            </tr>
+            <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>+ / -</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+            <tr th:each="entry: ${entries}">
+                <td th:text="${entry.title}" />
+                <td> <span th:style="'width: 1rem; display: -webkit-inline-box;background-color: ' + ${entry.category.color}">&nbsp;</span> <span th:text="${entry.category.name}"/>  </td>
+                <td th:text="${#dates.format(entry.start, 'dd/MM/yyyy HH:mm')}" />
+                <td th:text="${#dates.format(entry.end, 'dd/MM/yyyy HH:mm')}" />
+                <td th:text="${@durationToStringConverter.convert(entry.correction)}" />
+                <td th:text="${@durationToStringConverter.convert(entry.total)}" />
+                <td><form method="post" th:action="@{/entries/delete}" th:id="${entry.id}">
+                    <input type="hidden" name="id" th:value="${entry.id}" />
+                    <i class="fa-solid fa-delete-left"
+                       th:data-id="${entry.id}"
+                       onclick="document.getElementById(this.getAttribute('data-id')).submit()"></i>
+                </form></td>
+            </tr>
+            <tr style="height: 50px"></tr>
+            <tr>
+                <td><input type="text" name="title" placeholder="Title" required/></td>
+                <td>
+                    <select name="category">
+                        <option th:each="category: ${categories}" th:value="${category.name}" th:text="${category.name}" />
+                    </select>
+                </td>
+                <td><input type="datetime-local"  name="start"
+                       th:value="${today}"
+                       th:min="${weekStart}" th:max="${weekEnd}" required/></td>
+                <td><input type="datetime-local"  name="end"
+                       th:value="${today}"
+                       th:min="${weekStart}" th:max="${weekEnd}" required/></td>
+                <td><input type="time" name="correction" step="300000" /></td> <!-- 5 minutes -->
+                <td></td>
+                <td><input type="submit" value="Add" /></td>
+
+            </tr>
+            <tr>
+                <td><input type="text" name="linkedId" placeholder="linkedId"/></td>
+                <td><input type="text" name="description" placeholder="Description" /></td>
+                <td colspan="3"></td>
+            </tr>
+        </table>
+    </form>
 </div>
 </body>
 </html>

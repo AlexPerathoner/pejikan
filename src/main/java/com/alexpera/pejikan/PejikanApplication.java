@@ -1,13 +1,13 @@
-package com.alexpera.pejikanbackend;
+package com.alexpera.pejikan;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PejikanBackendApplication {
+public class PejikanApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PejikanBackendApplication.class, args);
+        SpringApplication.run(PejikanApplication.class, args);
     }
 
 }

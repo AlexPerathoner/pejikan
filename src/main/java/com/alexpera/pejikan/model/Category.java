@@ -1,4 +1,4 @@
-package com.alexpera.pejikanbackend.model;
+package com.alexpera.pejikan.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
