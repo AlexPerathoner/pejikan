@@ -5,6 +5,7 @@
     <title>Pejikan</title>
 </head>
 <body>
+<div style="width: 30%; margin-left: auto; margin-right: auto;">
 <h1>Pe時間</h1>
 <h2>Entries - Week: <span id="shownWeekStart" th:text="${weekStart}"></span> - <span id="shownWeekEnd" th:text="${weekEnd}"></span></h2>
 <input type="button" value="Previous" onclick="
@@ -24,6 +25,11 @@ window.location.search ='weekStart=' + nextWeek.toISOString().slice(0, 10)
 <form method="post" th:action="@{/entries/add}">
     <table>
         <tr>
+            <td colspan="4"></td>
+            <th>Total</th>
+            <td th:text="${@durationToStringConverter.convert(total)}" />
+        </tr>
+        <tr>
             <th>Title</th>
             <th>Category</th>
             <th>Start</th>
@@ -33,26 +39,19 @@ window.location.search ='weekStart=' + nextWeek.toISOString().slice(0, 10)
         </tr>
         <tr th:each="entry: ${entries}">
             <td th:text="${entry.title}" />
-            <td th:text="${entry.category.name}" />
+            <td> <span th:style="'width: 1rem; display: -webkit-inline-box;background-color: ' + ${entry.category.color}">&nbsp;</span> <span th:text="${entry.category.name}"/>  </td>
             <td th:text="${#dates.format(entry.start, 'dd/MM/yyyy HH:mm')}" />
             <td th:text="${#dates.format(entry.end, 'dd/MM/yyyy HH:mm')}" />
-            <td th:text="${#dates.format(entry.correction, 'HH:mm')}" />
-            <td th:text="${#dates.format(entry.total, 'HH:mm')}" />
+            <td th:text="${@durationToStringConverter.convert(entry.correction)}" />
+            <td th:text="${@durationToStringConverter.convert(entry.total)}" />
         </tr>
+        <tr style="height: 50px"></tr>
         <tr>
-            <td colspan="4"></td>
-            <th>Total</th>
-            <td th:text="${#dates.format(total, 'HH:mm')}" />
-        </tr>
-        <tr></tr>
-        <tr>
-            <td><input type="text" name="linkedId" /></td>
-            <td><input type="text" name="title" /></td>
-            <td><input type="text" name="description" /></td>
+            <td><input type="text" name="title" placeholder="Title"/></td>
             <td>
-            <select name="category">
-                <option th:each="category: ${categories}" th:value="${category.name}" th:text="${category.name}" />
-            </select>
+                <select name="category">
+                    <option th:each="category: ${categories}" th:value="${category.name}" th:text="${category.name}" />
+                </select>
             </td>
             <td><input type="datetime-local"  name="start"
                    th:value="${today}"
@@ -61,10 +60,15 @@ window.location.search ='weekStart=' + nextWeek.toISOString().slice(0, 10)
                    th:value="${today}"
                    th:min="${weekStart}" th:max="${weekEnd}" /></td>
             <td><input type="time" name="correction" step="300000" /></td> <!-- 5 minutes -->
-
             <td><input type="submit" value="Add" /></td>
+        </tr>
+        <tr>
+            <td><input type="text" name="linkedId" placeholder="linkedId"/></td>
+            <td><input type="text" name="description" placeholder="Description" /></td>
+            <td colspan="3"></td>
         </tr>
     </table>
 </form>
+</div>
 </body>
 </html>

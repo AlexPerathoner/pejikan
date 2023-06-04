@@ -13,12 +13,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Controller("/entries")
 public class EntryController {
@@ -48,9 +49,9 @@ public class EntryController {
         List<Category> allCategories = categoryRepo.findAll();
         model.addAttribute("categories", allCategories);
 
-        Time total = new Time(0, 0, 0);
-        entries.forEach(entry -> total.setTime(total.getTime() + entry.getTotal().getTime()));
-        model.addAttribute("total", total);
+        AtomicReference<Duration> total = new AtomicReference<>(Duration.ZERO);
+        entries.stream().map(Entry::getTotal).forEach(d -> total.set(total.get().plus(d)));
+        model.addAttribute("total", total.get());
         return "entries";
     }
 
@@ -66,13 +67,17 @@ public class EntryController {
         Date startDate = dateFormat.parse(start);
         Date endDate = dateFormat.parse(end);
 
-        Time correctionConv = new Time(0, 0, 0);
+        Duration correctionConv = Duration.ZERO;
         if (!StringUtils.isBlank(correction)) {
             Date correctionDate = timeFormat.parse(correction);
-            correctionConv = new Time(correctionDate.getHours(), correctionDate.getMinutes(), 0);
+            correctionConv = Duration.ofHours(correctionDate.getHours()).plusMinutes(correctionDate.getMinutes());
         }
-
-        Time total = new Time(startDate.getTime() - endDate.getTime() - correctionConv.getTime());
+        Duration total = Duration.between(startDate.toInstant(), endDate.toInstant()).minus(correctionConv).abs();
+        if (endDate.before(startDate)) {
+            Date tmp = startDate;
+            startDate = endDate;
+            endDate = tmp;
+        }
         entriesRepo.save(new Entry(linkedId, title, description, new Category(category), startDate, endDate, correctionConv, total));
         return getEntries(null, model);
     }

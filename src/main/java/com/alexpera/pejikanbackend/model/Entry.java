@@ -1,5 +1,6 @@
 package com.alexpera.pejikanbackend.model;
 
+import com.alexpera.pejikanbackend.converter.DurationConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.lang.NonNull;
 
 import java.io.Serializable;
-import java.sql.Time;
+import java.time.Duration;
 import java.util.Date;
 
 @Entity
@@ -34,11 +35,13 @@ public class Entry implements Serializable {
     @NonNull
     @Column(name = "end_date")
     private Date end;
-    private Time correction;
+    @Convert(converter = DurationConverter.class)
+    private Duration correction;
     private String linkedId;
-    private Time total;
+    @Convert(converter = DurationConverter.class)
+    private Duration total;
 
-    public Entry(String linkedId, String title, String description, Category category, Date start, Date end, Time correction, Time total) {
+    public Entry(String linkedId, String title, String description, Category category, Date start, Date end, Duration correction, Duration total) {
         this.linkedId = linkedId;
         this.title = title;
         this.description = description;

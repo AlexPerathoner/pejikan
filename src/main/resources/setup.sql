@@ -8,13 +8,13 @@ CREATE TABLE entries (
                          id SERIAL PRIMARY KEY,
                          title VARCHAR(255) NOT NULL,
                          description VARCHAR(255),
-                         category VARCHAR(255),
+                         category_name VARCHAR(255),
                          start_date DATE NOT NULL,
                          end_date DATE NOT NULL,
-                         correction TIME,
+                         correction INT,
                          linked_id VARCHAR(255),
-                         total TIME
+                         total INT
 );
 
 ALTER TABLE entries
-    ADD CONSTRAINT fk_category FOREIGN KEY (category) REFERENCES categories(name);
+    ADD CONSTRAINT fk_category FOREIGN KEY (category_name) REFERENCES categories(name);
