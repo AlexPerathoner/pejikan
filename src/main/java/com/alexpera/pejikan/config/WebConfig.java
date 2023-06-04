@@ -1,6 +1,6 @@
-package com.alexpera.pejikanbackend.config;
+package com.alexpera.pejikan.config;
 
-import com.alexpera.pejikanbackend.converter.DurationToStringConverter;
+import com.alexpera.pejikan.converter.DurationToStringConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

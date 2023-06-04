@@ -1,10 +1,10 @@
-package com.alexpera.pejikanbackend.controller;
+package com.alexpera.pejikan.controller;
 
-import com.alexpera.pejikanbackend.model.Category;
-import com.alexpera.pejikanbackend.model.Entry;
-import com.alexpera.pejikanbackend.repo.CategoryRepo;
-import com.alexpera.pejikanbackend.repo.EntryRepo;
-import com.alexpera.pejikanbackend.service.DateCalculator;
+import com.alexpera.pejikan.model.Category;
+import com.alexpera.pejikan.model.Entry;
+import com.alexpera.pejikan.repo.CategoryRepo;
+import com.alexpera.pejikan.repo.EntryRepo;
+import com.alexpera.pejikan.service.DateCalculator;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package com.alexpera.pejikanbackend.converter;
+package com.alexpera.pejikan.converter;
 
 
 import org.springframework.core.convert.converter.Converter;

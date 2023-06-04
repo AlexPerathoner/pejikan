@@ -1,7 +1,7 @@
-package com.alexpera.pejikanbackend.controller;
+package com.alexpera.pejikan.controller;
 
-import com.alexpera.pejikanbackend.model.Category;
-import com.alexpera.pejikanbackend.repo.CategoryRepo;
+import com.alexpera.pejikan.model.Category;
+import com.alexpera.pejikan.repo.CategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

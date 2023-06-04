@@ -1,6 +1,6 @@
-package com.alexpera.pejikanbackend.repo;
+package com.alexpera.pejikan.repo;
 
-import com.alexpera.pejikanbackend.model.Entry;
+import com.alexpera.pejikan.model.Entry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.alexpera</groupId>
-    <artifactId>pejikan-backend</artifactId>
+    <artifactId>pejikan</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>pejikan-backend</name>
-    <description>pejikan-backend</description>
+    <name>pejikan</name>
+    <description>pejikan</description>
     <properties>
         <java.version>17</java.version>
     </properties>

@@ -1,6 +1,6 @@
-package com.alexpera.pejikanbackend.model;
+package com.alexpera.pejikan.model;
 
-import com.alexpera.pejikanbackend.converter.DurationConverter;
+import com.alexpera.pejikan.converter.DurationConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

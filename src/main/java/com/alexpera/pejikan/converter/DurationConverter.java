@@ -1,4 +1,4 @@
-package com.alexpera.pejikanbackend.converter;
+package com.alexpera.pejikan.converter;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
